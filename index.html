@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project and team managment system</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка сайта -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">Project and team managment system</h1>
+                <nav class="main-nav">
+                    <a href="#projects" class="nav-link active" data-section="projects">Проекты</a>
+                    <a href="#products" class="nav-link" data-section="products">Продукты</a>
+                    <a href="#team" class="nav-link" data-section="team">Команда</a>
+                    <a href="#admin" class="nav-link" data-section="admin">Администрирование</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Секция Проекты -->
+            <section id="projects" class="content-section active">
+                <div class="section-header">
+                    <h2>Проекты</h2>
+                </div>
+                <div class="section-wrapper">
+                    <aside class="sidebar">
+                        <nav class="sidebar-nav">
+                            <a href="#" class="sidebar-link active" data-subsection="contractors">Контрагенты</a>
+                            <a href="#" class="sidebar-link" data-subsection="contact-persons">Контактные лица</a>
+                            <a href="#" class="sidebar-link" data-subsection="projects-list">Проекты</a>
+                            <a href="#" class="sidebar-link" data-subsection="milestones">Вехи</a>
+                            <a href="#" class="sidebar-link" data-subsection="stage-types">Виды этапов</a>
+                            <a href="#" class="sidebar-link" data-subsection="stages">Этапы</a>
+                        </nav>
+                    </aside>
+                    <div class="section-content-wrapper">
+                        <div class="subsection active" id="contractors">
+                            <div class="subsection-header">
+                                <h3>Контрагенты</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="contractors">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="contractors">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Отрасль</th>
+                                                <th>Контактные лица</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="contractors-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="contact-persons">
+                            <div class="subsection-header">
+                                <h3>Контактные лица</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="contact-persons">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="contact-persons">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Телефон</th>
+                                                <th>Email</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="contact-persons-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="projects-list">
+                            <div class="subsection-header">
+                                <h3>Проекты</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="projects-list">+ Новый проект</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="projects-list">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="projects-list-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="milestones">
+                            <div class="subsection-header">
+                                <h3>Вехи</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="milestones">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="milestones">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Проект</th>
+                                                <th>Стоимость</th>
+                                                <th>Дата начала</th>
+                                                <th>Дата окончания</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="milestones-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="stage-types">
+                            <div class="subsection-header">
+                                <h3>Виды этапов</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="stage-types">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="stage-types">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="stage-types-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="stages">
+                            <div class="subsection-header">
+                                <h3>Этапы</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="stages">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="stages">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Веха</th>
+                                                <th>Вид этапа</th>
+                                                <th>Стоимость</th>
+                                                <th>Дата начала</th>
+                                                <th>Дата завершения</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="stages-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Секция Продукты -->
+            <section id="products" class="content-section">
+                <div class="section-header">
+                    <h2>Продукты</h2>
+                </div>
+                <div class="section-wrapper">
+                    <aside class="sidebar">
+                        <nav class="sidebar-nav">
+                            <a href="#" class="sidebar-link active" data-subsection="products-list">Продукты</a>
+                            <a href="#" class="sidebar-link" data-subsection="industries">Отрасли</a>
+                        </nav>
+                    </aside>
+                    <div class="section-content-wrapper">
+                        <div class="subsection active" id="products-list">
+                            <div class="subsection-header">
+                                <h3>Продукты</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="products-list">+ Новый продукт</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="products-list">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="products-list-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="industries">
+                            <div class="subsection-header">
+                                <h3>Отрасли</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="industries">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="industries">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="industries-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Секция Команда -->
+            <section id="team" class="content-section">
+                <div class="section-header">
+                    <h2>Команда</h2>
+                </div>
+                <div class="section-wrapper">
+                    <aside class="sidebar">
+                        <nav class="sidebar-nav">
+                            <a href="#" class="sidebar-link active" data-subsection="employees">Сотрудники</a>
+                            <a href="#" class="sidebar-link" data-subsection="roles">Роли</a>
+                            <a href="#" class="sidebar-link" data-subsection="grades">Грейды</a>
+                        </nav>
+                    </aside>
+                    <div class="section-content-wrapper">
+                        <div class="subsection active" id="employees">
+                            <div class="subsection-header">
+                                <h3>Сотрудники</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="employees">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="employees">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="employees-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="roles">
+                            <div class="subsection-header">
+                                <h3>Роли</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="roles">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="roles">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="roles-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="grades">
+                            <div class="subsection-header">
+                                <h3>Грейды</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="grades">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="grades">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="grades-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Секция Администрирование -->
+            <section id="admin" class="content-section">
+                <div class="section-header">
+                    <h2>Администрирование</h2>
+                </div>
+                <div class="section-wrapper">
+                    <aside class="sidebar">
+                        <nav class="sidebar-nav">
+                            <a href="#" class="sidebar-link active" data-subsection="users">Пользователи</a>
+                            <a href="#" class="sidebar-link" data-subsection="access-profiles">Профили доступа</a>
+                        </nav>
+                    </aside>
+                    <div class="section-content-wrapper">
+                        <div class="subsection active" id="users">
+                            <div class="subsection-header">
+                                <h3>Пользователи</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="users">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="users">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="users-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="access-profiles">
+                            <div class="subsection-header">
+                                <h3>Профили доступа</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="access-profiles">+ Добавить</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="access-profiles">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Наименование</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="access-profiles-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Подвал -->
+        <footer class="footer">
+            <p>&copy; 2024 Project and team managment system</p>
+        </footer>
+    </div>
+
+    <!-- Модальное окно для создания/редактирования -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Добавить элемент</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="item-form">
+                    <!-- Стандартная форма (для большинства справочников) -->
+                    <div id="standard-form">
+                        <div class="form-group">
+                            <label for="item-name">Наименование:</label>
+                            <input type="text" id="item-name" name="name" placeholder="Введите наименование">
+                        </div>
+                    </div>
+                    
+                    <!-- Специальная форма для контактных лиц -->
+                    <div id="contact-person-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="contact-person-name">Наименование (ФИО):</label>
+                            <input type="text" id="contact-person-name" name="name" placeholder="Введите ФИО">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-person-phone">Телефон:</label>
+                            <input type="tel" id="contact-person-phone" name="phone" placeholder="Введите телефон">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-person-email">Email:</label>
+                            <input type="email" id="contact-person-email" name="email" placeholder="Введите email">
+                        </div>
+                    </div>
+                    
+                    <!-- Специальная форма для вех -->
+                    <div id="milestone-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="milestone-name">Наименование:</label>
+                            <input type="text" id="milestone-name" name="name" placeholder="Введите наименование вехи">
+                        </div>
+                        <div class="form-group">
+                            <label for="milestone-project">Проект:</label>
+                            <select id="milestone-project" name="project" class="form-select">
+                                <option value="">Выберите проект</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="milestone-cost">Стоимость:</label>
+                            <input type="number" id="milestone-cost" name="cost" placeholder="Введите стоимость" step="0.01" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="milestone-start-date">Плановая дата начала:</label>
+                            <input type="date" id="milestone-start-date" name="startDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="milestone-end-date">Плановая дата окончания:</label>
+                            <input type="date" id="milestone-end-date" name="endDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Этапы:</label>
+                            <div id="milestone-stages-list" class="contact-persons-list"></div>
+                            <div class="add-stage-form">
+                                <div class="form-group">
+                                    <label for="new-stage-name">Наименование:</label>
+                                    <input type="text" id="new-stage-name" placeholder="Наименование этапа" class="form-input-inline">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-stage-type">Вид этапа:</label>
+                                    <select id="new-stage-type" class="form-select">
+                                        <option value="">Выберите вид этапа</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-stage-cost">Стоимость:</label>
+                                    <input type="number" id="new-stage-cost" placeholder="Стоимость" step="0.01" min="0" class="form-input-inline">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-stage-start-date">Дата начала:</label>
+                                    <input type="date" id="new-stage-start-date" class="form-input-inline">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-stage-end-date">Дата завершения:</label>
+                                    <input type="date" id="new-stage-end-date" class="form-input-inline">
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary btn-small" id="add-stage-to-milestone-btn">+ Добавить этап</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary" id="check-milestone-btn">Проверка</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Специальная форма для этапов -->
+                    <div id="stage-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="stage-name">Наименование:</label>
+                            <div class="form-group-inline">
+                                <input type="text" id="stage-name" name="name" placeholder="Введите наименование этапа" class="form-input-inline" style="flex: 1;">
+                                <button type="button" class="btn btn-secondary btn-small" id="generate-stage-name-btn">Собрать автоматически</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-project">Проект:</label>
+                            <select id="stage-project" name="project" class="form-select">
+                                <option value="">Выберите проект</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-milestone">Веха:</label>
+                            <select id="stage-milestone" name="milestone" class="form-select">
+                                <option value="">Выберите веху</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-type">Вид этапа:</label>
+                            <select id="stage-type" name="stageType" class="form-select">
+                                <option value="">Выберите вид этапа</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-cost">Стоимость:</label>
+                            <input type="number" id="stage-cost" name="cost" placeholder="Введите стоимость" step="0.01" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-start-date">Плановая дата начала:</label>
+                            <input type="date" id="stage-start-date" name="startDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-end-date">Плановая дата завершения:</label>
+                            <input type="date" id="stage-end-date" name="endDate">
+                        </div>
+                    </div>
+                    
+                    <!-- Специальная форма для контрагентов -->
+                    <div id="contractor-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="contractor-name">Наименование:</label>
+                            <input type="text" id="contractor-name" name="name" placeholder="Введите наименование контрагента">
+                        </div>
+                        <div class="form-group">
+                            <label for="contractor-industry">Отрасль:</label>
+                            <select id="contractor-industry" name="industry" class="form-select">
+                                <option value="">Выберите отрасль</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Контактные лица:</label>
+                            <div id="contact-persons-list" class="contact-persons-list"></div>
+                            <div class="add-contact-person-form">
+                                <div class="form-group">
+                                    <input type="text" id="new-contact-person-name" placeholder="ФИО" class="form-input-inline">
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" id="new-contact-person-phone" placeholder="Телефон" class="form-input-inline">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" id="new-contact-person-email" placeholder="Email" class="form-input-inline">
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary btn-small" id="add-contact-person-btn">+ Добавить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-btn">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
