@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project and team managment system</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -31,12 +32,26 @@
                 <div class="section-wrapper">
                     <aside class="sidebar">
                         <nav class="sidebar-nav">
-                            <a href="#" class="sidebar-link active" data-subsection="contractors">Контрагенты</a>
-                            <a href="#" class="sidebar-link" data-subsection="contact-persons">Контактные лица</a>
-                            <a href="#" class="sidebar-link" data-subsection="projects-list">Проекты</a>
-                            <a href="#" class="sidebar-link" data-subsection="milestones">Вехи</a>
-                            <a href="#" class="sidebar-link" data-subsection="stage-types">Виды этапов</a>
-                            <a href="#" class="sidebar-link" data-subsection="stages">Этапы</a>
+                            <div class="sidebar-group">
+                                <a href="#" class="sidebar-link sidebar-group-title active" data-subsection="projects-reference">Справочники</a>
+                                <div class="sidebar-sublinks">
+                                    <a href="#" class="sidebar-sublink active" data-subsection="contractors">Контрагенты</a>
+                                    <a href="#" class="sidebar-sublink" data-subsection="contact-persons">Контактные лица</a>
+                                    <a href="#" class="sidebar-sublink" data-subsection="projects-list">Проекты</a>
+                                    <a href="#" class="sidebar-sublink" data-subsection="milestones">Вехи</a>
+                                    <a href="#" class="sidebar-sublink" data-subsection="stage-types">Виды этапов</a>
+                                    <a href="#" class="sidebar-sublink" data-subsection="stages">Этапы</a>
+                                </div>
+                            </div>
+                            <div class="sidebar-group">
+                                <a href="#" class="sidebar-link sidebar-group-title" data-subsection="projects-documents">Документы</a>
+                                <div class="sidebar-sublinks">
+                                    <a href="#" class="sidebar-sublink" data-subsection="stage-start">Старт этапа</a>
+                                    <a href="#" class="sidebar-sublink" data-subsection="stage-completion">Завершение этапа</a>
+                                </div>
+                            </div>
+                            <a href="#" class="sidebar-link" data-subsection="projects-arms">АРМы</a>
+                            <a href="#" class="sidebar-link" data-subsection="projects-reports">Отчеты</a>
                         </nav>
                     </aside>
                     <div class="section-content-wrapper">
@@ -95,6 +110,10 @@
                                         <thead>
                                             <tr>
                                                 <th>Наименование</th>
+                                                <th>Контрагент</th>
+                                                <th>Стоимость</th>
+                                                <th>Дата начала</th>
+                                                <th>Дата завершения</th>
                                                 <th>Действия</th>
                                             </tr>
                                         </thead>
@@ -139,6 +158,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Наименование</th>
+                                                <th>Обязательные Роли</th>
                                                 <th>Действия</th>
                                             </tr>
                                         </thead>
@@ -173,6 +193,216 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="subsection" id="stage-start">
+                            <div class="subsection-header">
+                                <h3>Старт этапа</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="stage-start">+ Новый документ</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="stage-start">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Проект</th>
+                                                <th>Веха</th>
+                                                <th>Этап</th>
+                                                <th>Состав команды</th>
+                                                <th>Фактическая дата начала</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="stage-start-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="stage-completion">
+                            <div class="subsection-header">
+                                <h3>Завершение этапа</h3>
+                                <button class="btn btn-primary" data-action="add" data-reference="stage-completion">+ Новый документ</button>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="data-table-container" data-reference="stage-completion">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Проект</th>
+                                                <th>Веха</th>
+                                                <th>Этап</th>
+                                                <th>Состав команды</th>
+                                                <th>Фактическая дата завершения</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="stage-completion-table-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="projects-arms">
+                            <div class="subsection-header">
+                                <h3>АРМы</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="arms-list">
+                                    <a href="#" class="arm-link" data-arm="project-creation">
+                                        <div class="arm-card">
+                                            <h4>Создание проекта</h4>
+                                            <p>Создание проекта с вехами, этапами и документом старта первого этапа</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="project-creation-arm">
+                            <div class="subsection-header">
+                                <h3>Создание проекта</h3>
+                                <button class="btn btn-secondary" id="back-to-arms-btn">← Назад к АРМам</button>
+                            </div>
+                            <div class="subsection-content">
+                                <form id="project-creation-form">
+                                    <div class="form-section">
+                                        <h4>Основная информация о проекте</h4>
+                                        <div class="form-group">
+                                            <label for="arm-project-name">Наименование: <span class="required">*</span></label>
+                                            <input type="text" id="arm-project-name" name="name" class="form-input" placeholder="Введите наименование проекта" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="arm-project-contractor">Контрагент: <span class="required">*</span></label>
+                                            <select id="arm-project-contractor" name="contractor" class="form-select" required>
+                                                <option value="">Выберите контрагента</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="arm-project-cost">Стоимость:</label>
+                                            <input type="number" id="arm-project-cost" name="cost" class="form-input" placeholder="Введите стоимость" step="0.01" min="0">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="arm-project-start-date">Плановая дата начала:</label>
+                                            <input type="date" id="arm-project-start-date" name="startDate" class="form-input">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="arm-project-end-date">Плановая дата завершения:</label>
+                                            <input type="date" id="arm-project-end-date" name="endDate" class="form-input">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-section">
+                                        <h4>Вехи проекта</h4>
+                                        <div id="arm-milestones-list" class="milestones-container"></div>
+                                        <button type="button" class="btn btn-primary" id="add-milestone-arm-btn">+ Добавить веху</button>
+                                    </div>
+                                    
+                                    <div class="form-section">
+                                        <h4>Информация для документа "Старт этапа" первого этапа</h4>
+                                        <div class="form-group">
+                                            <label>Состав команды первого этапа:</label>
+                                            <div id="arm-first-stage-team-list" class="contact-persons-list"></div>
+                                            <div class="add-team-member-form">
+                                                <div class="form-group" style="flex: 1; margin-right: 1rem;">
+                                                    <label for="arm-first-stage-role">Роль:</label>
+                                                    <select id="arm-first-stage-role" class="form-select">
+                                                        <option value="">Выберите роль</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group" style="flex: 1; margin-right: 1rem;">
+                                                    <label for="arm-first-stage-employee">Сотрудник:</label>
+                                                    <select id="arm-first-stage-employee" class="form-select">
+                                                        <option value="">Выберите сотрудника</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group" style="display: flex; align-items: flex-end;">
+                                                    <button type="button" class="btn btn-primary btn-small" id="add-first-stage-team-member-btn">+ Добавить</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="arm-first-stage-actual-date">Фактическая дата начала первого этапа:</label>
+                                            <input type="date" id="arm-first-stage-actual-date" name="actualDate" class="form-input">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn-secondary" id="cancel-project-creation-btn">Отмена</button>
+                                        <button type="submit" class="btn btn-primary">Создать проект</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="subsection" id="projects-reports">
+                            <div class="subsection-header">
+                                <h3>Отчеты</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="report-section">
+                                    <h4>Плановая выручка</h4>
+                                    <div class="report-filters">
+                                        <div class="form-group" style="display: flex; gap: 1rem; align-items: flex-end; margin-bottom: 1.5rem;">
+                                            <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                                                <label for="revenue-report-start-date">Период с:</label>
+                                                <input type="date" id="revenue-report-start-date" class="form-input">
+                                            </div>
+                                            <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                                                <label for="revenue-report-end-date">Период по:</label>
+                                                <input type="date" id="revenue-report-end-date" class="form-input">
+                                            </div>
+                                            <div class="form-group" style="margin-bottom: 0;">
+                                                <button type="button" class="btn btn-primary" id="generate-revenue-report-btn">Сформировать отчет</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="report-results">
+                                        <div id="revenue-report-summary" style="margin-bottom: 1.5rem; padding: 1rem; background-color: #f8f9fa; border-radius: 8px; display: none;">
+                                            <strong>Итого плановая выручка: <span id="revenue-report-total">0.00</span> руб.</strong>
+                                        </div>
+                                        <div class="report-chart-section" style="margin-bottom: 2rem; display: none;" id="revenue-chart-section">
+                                            <div class="form-group" style="margin-bottom: 1rem;">
+                                                <label>Группировка по периоду:</label>
+                                                <div style="display: flex; gap: 1rem; align-items: center;">
+                                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                                        <input type="radio" name="chart-period" value="month" checked style="cursor: pointer;">
+                                                        <span>Месяц</span>
+                                                    </label>
+                                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                                        <input type="radio" name="chart-period" value="quarter" style="cursor: pointer;">
+                                                        <span>Квартал</span>
+                                                    </label>
+                                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                                        <input type="radio" name="chart-period" value="year" style="cursor: pointer;">
+                                                        <span>Год</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div style="position: relative; height: 400px;">
+                                                <canvas id="revenue-chart"></canvas>
+                                            </div>
+                                        </div>
+                                        <div class="data-table-container">
+                                            <table class="data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Проект</th>
+                                                        <th>Веха</th>
+                                                        <th>Этап</th>
+                                                        <th>Стоимость этапа</th>
+                                                        <th>Плановая дата завершения</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="revenue-report-table-body">
+                                                    <tr>
+                                                        <td colspan="5" style="text-align: center; padding: 2rem; color: #888;">
+                                                            Выберите период и нажмите "Сформировать отчет"
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -185,8 +415,16 @@
                 <div class="section-wrapper">
                     <aside class="sidebar">
                         <nav class="sidebar-nav">
-                            <a href="#" class="sidebar-link active" data-subsection="products-list">Продукты</a>
-                            <a href="#" class="sidebar-link" data-subsection="industries">Отрасли</a>
+                            <div class="sidebar-group">
+                                <a href="#" class="sidebar-link sidebar-group-title active" data-subsection="products-reference">Справочники</a>
+                                <div class="sidebar-sublinks">
+                                    <a href="#" class="sidebar-sublink active" data-subsection="products-list">Продукты</a>
+                                    <a href="#" class="sidebar-sublink" data-subsection="industries">Отрасли</a>
+                                </div>
+                            </div>
+                            <a href="#" class="sidebar-link sidebar-group-title" data-subsection="products-documents">Документы</a>
+                            <a href="#" class="sidebar-link sidebar-group-title" data-subsection="products-arms">АРМы</a>
+                            <a href="#" class="sidebar-link sidebar-group-title" data-subsection="products-reports">Отчеты</a>
                         </nav>
                     </aside>
                     <div class="section-content-wrapper">
@@ -242,9 +480,17 @@
                 <div class="section-wrapper">
                     <aside class="sidebar">
                         <nav class="sidebar-nav">
-                            <a href="#" class="sidebar-link active" data-subsection="employees">Сотрудники</a>
-                            <a href="#" class="sidebar-link" data-subsection="roles">Роли</a>
-                            <a href="#" class="sidebar-link" data-subsection="grades">Грейды</a>
+                            <div class="sidebar-group">
+                                <a href="#" class="sidebar-link sidebar-group-title active" data-subsection="team-reference">Справочники</a>
+                                <div class="sidebar-sublinks">
+                                    <a href="#" class="sidebar-sublink active" data-subsection="employees">Сотрудники</a>
+                                    <a href="#" class="sidebar-sublink" data-subsection="roles">Роли</a>
+                                    <a href="#" class="sidebar-sublink" data-subsection="grades">Грейды</a>
+                                </div>
+                            </div>
+                            <a href="#" class="sidebar-link sidebar-group-title" data-subsection="team-documents">Документы</a>
+                            <a href="#" class="sidebar-link sidebar-group-title" data-subsection="team-arms">АРМы</a>
+                            <a href="#" class="sidebar-link sidebar-group-title" data-subsection="team-reports">Отчеты</a>
                         </nav>
                     </aside>
                     <div class="section-content-wrapper">
@@ -308,6 +554,47 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Подсекции для разделов Команда -->
+                        <div class="subsection" id="team-reference">
+                            <div class="subsection-header">
+                                <h3>Справочники</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Выберите справочник из списка слева</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="team-documents">
+                            <div class="subsection-header">
+                                <h3>Документы</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Раздел находится в разработке</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="team-arms">
+                            <div class="subsection-header">
+                                <h3>АРМы</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Раздел находится в разработке</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="team-reports">
+                            <div class="subsection-header">
+                                <h3>Отчеты</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Раздел находится в разработке</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -320,8 +607,16 @@
                 <div class="section-wrapper">
                     <aside class="sidebar">
                         <nav class="sidebar-nav">
-                            <a href="#" class="sidebar-link active" data-subsection="users">Пользователи</a>
-                            <a href="#" class="sidebar-link" data-subsection="access-profiles">Профили доступа</a>
+                            <div class="sidebar-group">
+                                <a href="#" class="sidebar-link sidebar-group-title active" data-subsection="admin-reference">Справочники</a>
+                                <div class="sidebar-sublinks">
+                                    <a href="#" class="sidebar-sublink active" data-subsection="users">Пользователи</a>
+                                    <a href="#" class="sidebar-sublink" data-subsection="access-profiles">Профили доступа</a>
+                                </div>
+                            </div>
+                            <a href="#" class="sidebar-link sidebar-group-title" data-subsection="admin-documents">Документы</a>
+                            <a href="#" class="sidebar-link sidebar-group-title" data-subsection="admin-arms">АРМы</a>
+                            <a href="#" class="sidebar-link sidebar-group-title" data-subsection="admin-reports">Отчеты</a>
                         </nav>
                     </aside>
                     <div class="section-content-wrapper">
@@ -362,6 +657,88 @@
                                         <tbody id="access-profiles-table-body">
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Подсекции для разделов Администрирование -->
+                        <div class="subsection" id="admin-reference">
+                            <div class="subsection-header">
+                                <h3>Справочники</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Выберите справочник из списка слева</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="admin-documents">
+                            <div class="subsection-header">
+                                <h3>Документы</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Раздел находится в разработке</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="admin-arms">
+                            <div class="subsection-header">
+                                <h3>АРМы</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Раздел находится в разработке</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="admin-reports">
+                            <div class="subsection-header">
+                                <h3>Отчеты</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Раздел находится в разработке</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Подсекции для разделов Администрирование -->
+                        <div class="subsection" id="admin-reference">
+                            <div class="subsection-header">
+                                <h3>Справочники</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Выберите справочник из списка слева</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="admin-documents">
+                            <div class="subsection-header">
+                                <h3>Документы</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Раздел находится в разработке</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="admin-arms">
+                            <div class="subsection-header">
+                                <h3>АРМы</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Раздел находится в разработке</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subsection" id="admin-reports">
+                            <div class="subsection-header">
+                                <h3>Отчеты</h3>
+                            </div>
+                            <div class="subsection-content">
+                                <div class="placeholder-content">
+                                    <p>Раздел находится в разработке</p>
                                 </div>
                             </div>
                         </div>
@@ -411,61 +788,138 @@
                     
                     <!-- Специальная форма для вех -->
                     <div id="milestone-form" style="display: none;">
-                        <div class="form-group">
-                            <label for="milestone-name">Наименование:</label>
-                            <input type="text" id="milestone-name" name="name" placeholder="Введите наименование вехи">
+                        <div class="tabs">
+                            <button type="button" class="tab-btn active" data-tab="milestone-main">Основная информация</button>
+                            <button type="button" class="tab-btn" data-tab="milestone-stages">Этапы</button>
                         </div>
-                        <div class="form-group">
-                            <label for="milestone-project">Проект:</label>
-                            <select id="milestone-project" name="project" class="form-select">
-                                <option value="">Выберите проект</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="milestone-cost">Стоимость:</label>
-                            <input type="number" id="milestone-cost" name="cost" placeholder="Введите стоимость" step="0.01" min="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="milestone-start-date">Плановая дата начала:</label>
-                            <input type="date" id="milestone-start-date" name="startDate">
-                        </div>
-                        <div class="form-group">
-                            <label for="milestone-end-date">Плановая дата окончания:</label>
-                            <input type="date" id="milestone-end-date" name="endDate">
-                        </div>
-                        <div class="form-group">
-                            <label>Этапы:</label>
-                            <div id="milestone-stages-list" class="contact-persons-list"></div>
-                            <div class="add-stage-form">
-                                <div class="form-group">
-                                    <label for="new-stage-name">Наименование:</label>
-                                    <input type="text" id="new-stage-name" placeholder="Наименование этапа" class="form-input-inline">
-                                </div>
-                                <div class="form-group">
-                                    <label for="new-stage-type">Вид этапа:</label>
-                                    <select id="new-stage-type" class="form-select">
-                                        <option value="">Выберите вид этапа</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="new-stage-cost">Стоимость:</label>
-                                    <input type="number" id="new-stage-cost" placeholder="Стоимость" step="0.01" min="0" class="form-input-inline">
-                                </div>
-                                <div class="form-group">
-                                    <label for="new-stage-start-date">Дата начала:</label>
-                                    <input type="date" id="new-stage-start-date" class="form-input-inline">
-                                </div>
-                                <div class="form-group">
-                                    <label for="new-stage-end-date">Дата завершения:</label>
-                                    <input type="date" id="new-stage-end-date" class="form-input-inline">
-                                </div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary btn-small" id="add-stage-to-milestone-btn">+ Добавить этап</button>
-                                </div>
+                        
+                        <div class="tab-content active" id="milestone-main-tab">
+                            <div class="form-group">
+                                <label for="milestone-name">Наименование:</label>
+                                <input type="text" id="milestone-name" name="name" placeholder="Введите наименование вехи">
+                            </div>
+                            <div class="form-group">
+                                <label for="milestone-project">Проект:</label>
+                                <select id="milestone-project" name="project" class="form-select">
+                                    <option value="">Выберите проект</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="milestone-cost">Стоимость:</label>
+                                <input type="number" id="milestone-cost" name="cost" placeholder="Введите стоимость" step="0.01" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="milestone-start-date">Плановая дата начала:</label>
+                                <input type="date" id="milestone-start-date" name="startDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="milestone-end-date">Плановая дата окончания:</label>
+                                <input type="date" id="milestone-end-date" name="endDate">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-secondary" id="check-milestone-btn">Проверка</button>
+                        
+                        <div class="tab-content" id="milestone-stages-tab">
+                            <div class="form-group">
+                                <label>Список этапов:</label>
+                                <div id="milestone-stages-list" class="contact-persons-list"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Добавить новый этап:</label>
+                                <div class="add-stage-form">
+                                    <div class="form-group">
+                                        <label for="new-stage-name">Наименование:</label>
+                                        <input type="text" id="new-stage-name" placeholder="Наименование этапа" class="form-input-inline">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-stage-type">Вид этапа:</label>
+                                        <select id="new-stage-type" class="form-select">
+                                            <option value="">Выберите вид этапа</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-stage-cost">Стоимость:</label>
+                                        <input type="number" id="new-stage-cost" placeholder="Стоимость" step="0.01" min="0" class="form-input-inline">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-stage-start-date">Дата начала:</label>
+                                        <input type="date" id="new-stage-start-date" class="form-input-inline">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-stage-end-date">Дата завершения:</label>
+                                        <input type="date" id="new-stage-end-date" class="form-input-inline">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary btn-small" id="add-stage-to-milestone-btn">+ Добавить этап</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" id="check-milestone-btn">Проверка</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Специальная форма для проектов -->
+                    <div id="project-form" style="display: none;">
+                        <div class="tabs">
+                            <button type="button" class="tab-btn active" data-tab="project-main">Основное</button>
+                            <button type="button" class="tab-btn" data-tab="project-milestones">Вехи</button>
+                        </div>
+                        
+                        <div class="tab-content active" id="project-main-tab">
+                            <div class="form-group">
+                                <label for="project-name">Наименование:</label>
+                                <input type="text" id="project-name" name="name" placeholder="Введите наименование проекта">
+                            </div>
+                            <div class="form-group">
+                                <label for="project-contractor">Контрагент:</label>
+                                <select id="project-contractor" name="contractor" class="form-select">
+                                    <option value="">Выберите контрагента</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="project-cost">Стоимость:</label>
+                                <input type="number" id="project-cost" name="cost" placeholder="Введите стоимость" step="0.01" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="project-start-date">Плановая дата начала:</label>
+                                <input type="date" id="project-start-date" name="startDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="project-end-date">Плановая дата завершения:</label>
+                                <input type="date" id="project-end-date" name="endDate">
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="project-milestones-tab">
+                            <div class="form-group">
+                                <label>Список вех:</label>
+                                <div id="project-milestones-list" class="contact-persons-list"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Добавить новую веху:</label>
+                                <div class="add-stage-form">
+                                    <div class="form-group">
+                                        <label for="new-milestone-name">Наименование:</label>
+                                        <input type="text" id="new-milestone-name" placeholder="Наименование вехи" class="form-input-inline">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-milestone-cost">Стоимость:</label>
+                                        <input type="number" id="new-milestone-cost" placeholder="Стоимость" step="0.01" min="0" class="form-input-inline">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-milestone-start-date">Дата начала:</label>
+                                        <input type="date" id="new-milestone-start-date" class="form-input-inline">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-milestone-end-date">Дата завершения:</label>
+                                        <input type="date" id="new-milestone-end-date" class="form-input-inline">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary btn-small" id="add-milestone-to-project-btn">+ Добавить веху</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -539,6 +993,119 @@
                                     <button type="button" class="btn btn-primary btn-small" id="add-contact-person-btn">+ Добавить</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Специальная форма для видов этапов -->
+                    <div id="stage-type-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="stage-type-name">Наименование:</label>
+                            <input type="text" id="stage-type-name" name="name" placeholder="Введите наименование вида этапа">
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-type-required-roles">Обязательные Роли:</label>
+                            <select id="stage-type-required-roles" multiple class="form-select" style="min-height: 150px;">
+                                <option value="">Выберите роли</option>
+                            </select>
+                            <small style="color: #666; display: block; margin-top: 0.5rem;">Удерживайте Ctrl (или Cmd на Mac) для выбора нескольких ролей</small>
+                        </div>
+                    </div>
+                    
+                    <!-- Форма для документа "Старт этапа" -->
+                    <div id="stage-start-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="stage-start-project">Проект: <span class="required">*</span></label>
+                            <select id="stage-start-project" name="project" class="form-select">
+                                <option value="">Выберите проект</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-start-milestone">Веха: <span class="required">*</span></label>
+                            <select id="stage-start-milestone" name="milestone" class="form-select">
+                                <option value="">Выберите веху</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-start-stage">Этап: <span class="required">*</span></label>
+                            <select id="stage-start-stage" name="stage" class="form-select">
+                                <option value="">Выберите этап</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Состав команды:</label>
+                            <div id="stage-start-team-list" class="contact-persons-list"></div>
+                            <div class="add-stage-form" style="margin-top: 1rem;">
+                                <div class="form-group-inline">
+                                    <div class="form-group" style="flex: 1; margin-right: 1rem;">
+                                        <label for="stage-start-role">Роль:</label>
+                                        <select id="stage-start-role" class="form-select">
+                                            <option value="">Выберите роль</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" style="flex: 1; margin-right: 1rem;">
+                                        <label for="stage-start-employee">Сотрудник:</label>
+                                        <select id="stage-start-employee" class="form-select">
+                                            <option value="">Выберите сотрудника</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" style="display: flex; align-items: flex-end;">
+                                        <button type="button" class="btn btn-primary btn-small" id="add-team-member-start-btn">+ Добавить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-start-actual-date">Фактическая дата начала: <span class="required">*</span></label>
+                            <input type="date" id="stage-start-actual-date" name="actualDate" class="form-input">
+                        </div>
+                    </div>
+                    
+                    <!-- Форма для документа "Завершение этапа" -->
+                    <div id="stage-completion-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="stage-completion-project">Проект: <span class="required">*</span></label>
+                            <select id="stage-completion-project" name="project" class="form-select">
+                                <option value="">Выберите проект</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-completion-milestone">Веха: <span class="required">*</span></label>
+                            <select id="stage-completion-milestone" name="milestone" class="form-select">
+                                <option value="">Выберите веху</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-completion-stage">Этап: <span class="required">*</span></label>
+                            <select id="stage-completion-stage" name="stage" class="form-select">
+                                <option value="">Выберите этап</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Состав команды:</label>
+                            <div id="stage-completion-team-list" class="contact-persons-list"></div>
+                            <div class="add-stage-form" style="margin-top: 1rem;">
+                                <div class="form-group-inline">
+                                    <div class="form-group" style="flex: 1; margin-right: 1rem;">
+                                        <label for="stage-completion-role">Роль:</label>
+                                        <select id="stage-completion-role" class="form-select">
+                                            <option value="">Выберите роль</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" style="flex: 1; margin-right: 1rem;">
+                                        <label for="stage-completion-employee">Сотрудник:</label>
+                                        <select id="stage-completion-employee" class="form-select">
+                                            <option value="">Выберите сотрудника</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" style="display: flex; align-items: flex-end;">
+                                        <button type="button" class="btn btn-primary btn-small" id="add-team-member-completion-btn">+ Добавить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage-completion-actual-date">Фактическая дата завершения: <span class="required">*</span></label>
+                            <input type="date" id="stage-completion-actual-date" name="actualDate" class="form-input">
                         </div>
                     </div>
                     
