@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project and team managment system</title>
+    <title>ServiceFlow — Система управления проектами</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -12,20 +16,73 @@
         <!-- Шапка сайта -->
         <header class="header">
             <div class="header-content">
-                <h1 class="logo">Project and team managment system</h1>
+                <h1 class="logo"><i class="fas fa-layer-group"></i> ServiceFlow</h1>
                 <nav class="main-nav">
-                    <a href="#projects" class="nav-link active" data-section="projects">Проекты</a>
-                    <a href="#products" class="nav-link" data-section="products">Продукты</a>
-                    <a href="#team" class="nav-link" data-section="team">Команда</a>
-                    <a href="#admin" class="nav-link" data-section="admin">Администрирование</a>
+                    <a href="#dashboard" class="nav-link active" data-section="dashboard"><i class="fas fa-chart-line"></i> Дашборд</a>
+                    <a href="#projects" class="nav-link" data-section="projects"><i class="fas fa-project-diagram"></i> Проекты</a>
+                    <a href="#products" class="nav-link" data-section="products"><i class="fas fa-box"></i> Продукты</a>
+                    <a href="#team" class="nav-link" data-section="team"><i class="fas fa-users-cog"></i> Команда</a>
+                    <a href="#admin" class="nav-link" data-section="admin"><i class="fas fa-user-shield"></i> Администрирование</a>
                 </nav>
             </div>
         </header>
 
         <!-- Основной контент -->
         <main class="main-content">
+            <!-- Секция Дашборд -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h2>Обзор системы</h2>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="icon icon-teal"><i class="fas fa-briefcase"></i></div>
+                        <div class="label">Активные проекты</div>
+                        <div class="value" id="dash-projects-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon icon-indigo"><i class="fas fa-handshake"></i></div>
+                        <div class="label">Контрагенты</div>
+                        <div class="value" id="dash-contractors-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon icon-blue"><i class="fas fa-users"></i></div>
+                        <div class="label">Сотрудники</div>
+                        <div class="value" id="dash-employees-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon icon-amber"><i class="fas fa-ruble-sign"></i></div>
+                        <div class="label">Общая плановая выручка</div>
+                        <div class="value" id="dash-total-revenue">0</div>
+                    </div>
+                </div>
+
+                <div class="section-wrapper">
+                    <div class="section-content-wrapper">
+                        <div class="subsection active">
+                            <div class="subsection-header">
+                                <h3>График выручки</h3>
+                            </div>
+                            <div class="subsection-content" style="min-height: 300px;">
+                                <canvas id="dashboard-revenue-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 350px;">
+                        <div class="subsection-header">
+                            <h3>Последние проекты</h3>
+                        </div>
+                        <div class="subsection-content" style="padding: 1rem;">
+                            <div id="recent-projects-list">
+                                <!-- Будет заполнено JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Секция Проекты -->
-            <section id="projects" class="content-section active">
+            <section id="projects" class="content-section">
                 <div class="section-header">
                     <h2>Проекты</h2>
                 </div>
@@ -33,7 +90,7 @@
                     <aside class="sidebar">
                         <nav class="sidebar-nav">
                             <div class="sidebar-group">
-                                <a href="#" class="sidebar-link sidebar-group-title active" data-subsection="projects-reference">Справочники</a>
+                                <a href="#" class="sidebar-link sidebar-group-title active" data-subsection="projects-reference"><i class="fas fa-book"></i> Справочники</a>
                                 <div class="sidebar-sublinks">
                                     <a href="#" class="sidebar-sublink active" data-subsection="contractors">Контрагенты</a>
                                     <a href="#" class="sidebar-sublink" data-subsection="contact-persons">Контактные лица</a>
@@ -44,14 +101,14 @@
                                 </div>
                             </div>
                             <div class="sidebar-group">
-                                <a href="#" class="sidebar-link sidebar-group-title" data-subsection="projects-documents">Документы</a>
+                                <a href="#" class="sidebar-link sidebar-group-title" data-subsection="projects-documents"><i class="fas fa-file-alt"></i> Документы</a>
                                 <div class="sidebar-sublinks">
                                     <a href="#" class="sidebar-sublink" data-subsection="stage-start">Старт этапа</a>
                                     <a href="#" class="sidebar-sublink" data-subsection="stage-completion">Завершение этапа</a>
                                 </div>
                             </div>
-                            <a href="#" class="sidebar-link" data-subsection="projects-arms">АРМы</a>
-                            <a href="#" class="sidebar-link" data-subsection="projects-reports">Отчеты</a>
+                            <a href="#" class="sidebar-link" data-subsection="projects-arms"><i class="fas fa-laptop-code"></i> АРМы</a>
+                            <a href="#" class="sidebar-link" data-subsection="projects-reports"><i class="fas fa-chart-bar"></i> Отчеты</a>
                         </nav>
                     </aside>
                     <div class="section-content-wrapper">
@@ -749,7 +806,7 @@
 
         <!-- Подвал -->
         <footer class="footer">
-            <p>&copy; 2024 Project and team managment system</p>
+            <p>&copy; 2024 ServiceFlow — Система управления проектами и командами</p>
         </footer>
     </div>
 

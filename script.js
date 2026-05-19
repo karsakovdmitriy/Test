@@ -9,6 +9,7 @@ const references = [
 
 // Навигация между разделами
 document.addEventListener('DOMContentLoaded', function() {
+    populateSampleData();
     initializeApp();
     setupNavigation();
     setupSubsectionNavigation();
@@ -42,6 +43,170 @@ function initializeApp() {
             localStorage.setItem(ref, JSON.stringify([]));
         }
     });
+
+    // Обновляем дашборд при инициализации
+    updateDashboard();
+}
+
+function updateDashboard() {
+    const projects = getItems('projects-list');
+    const contractors = getItems('contractors');
+    const employees = getItems('employees');
+    const stages = getItems('stages');
+
+    // Счётчики
+    const projectsCount = document.getElementById('dash-projects-count');
+    const contractorsCount = document.getElementById('dash-contractors-count');
+    const employeesCount = document.getElementById('dash-employees-count');
+    const totalRevenueElem = document.getElementById('dash-total-revenue');
+
+    if (projectsCount) projectsCount.textContent = projects.length;
+    if (contractorsCount) contractorsCount.textContent = contractors.length;
+    if (employeesCount) employeesCount.textContent = employees.length;
+
+    const totalRevenue = stages.reduce((sum, stage) => sum + (parseFloat(stage.cost) || 0), 0);
+    if (totalRevenueElem) totalRevenueElem.textContent = totalRevenue.toLocaleString('ru-RU') + ' ₽';
+
+    // Список последних проектов
+    const recentProjectsList = document.getElementById('recent-projects-list');
+    if (recentProjectsList) {
+        const recent = [...projects].sort((a, b) => (b.id - a.id)).slice(0, 5);
+        if (recent.length === 0) {
+            recentProjectsList.innerHTML = '<div style="text-align: center; padding: 2rem; color: #888;">Нет проектов</div>';
+        } else {
+            recentProjectsList.innerHTML = recent.map(p => `
+                <div style="padding: 0.75rem; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.875rem;">${escapeHtml(p.name)}</div>
+                        <div style="font-size: 0.75rem; color: #64748b;">${p.cost ? p.cost.toLocaleString('ru-RU') + ' ₽' : '0 ₽'}</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color: #cbd5e1; font-size: 0.75rem;"></i>
+                </div>
+            `).join('');
+        }
+    }
+
+    // График выручки на дашборде
+    renderDashboardChart(stages);
+}
+
+let dashboardChart = null;
+function renderDashboardChart(stages) {
+    const canvas = document.getElementById('dashboard-revenue-chart');
+    if (!canvas) return;
+
+    // Группировка по месяцам для последних 6 месяцев
+    const monthlyData = {};
+    const now = new Date();
+    for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        monthlyData[key] = 0;
+    }
+
+    stages.forEach(s => {
+        if (!s.endDate) return;
+        const key = s.endDate.substring(0, 7);
+        if (monthlyData.hasOwnProperty(key)) {
+            monthlyData[key] += (parseFloat(s.cost) || 0);
+        }
+    });
+
+    const labels = Object.keys(monthlyData).map(k => {
+        const [y, m] = k.split('-');
+        const months = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+        return months[parseInt(m) - 1];
+    });
+    const data = Object.values(monthlyData);
+
+    if (dashboardChart) dashboardChart.destroy();
+
+    const ctx = canvas.getContext('2d');
+    dashboardChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Плановая выручка',
+                data: data,
+                borderColor: '#0d9488',
+                backgroundColor: 'rgba(13, 148, 136, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#0d9488'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+function populateSampleData() {
+    if (localStorage.getItem('contractors') && JSON.parse(localStorage.getItem('contractors')).length > 0) {
+        return; // Данные уже есть
+    }
+
+    const sampleIndustries = [
+        { id: 'ind1', name: 'IT и Телеком' },
+        { id: 'ind2', name: 'Банки и финансы' },
+        { id: 'ind3', name: 'Ритейл' }
+    ];
+
+    const sampleRoles = [
+        { id: 'rol1', name: 'Менеджер проекта' },
+        { id: 'rol2', name: 'Аналитик' },
+        { id: 'rol3', name: 'Разработчик' },
+        { id: 'rol4', name: 'Тестировщик' }
+    ];
+
+    const sampleEmployees = [
+        { id: 'emp1', name: 'Иванов Иван' },
+        { id: 'emp2', name: 'Петров Петр' },
+        { id: 'emp3', name: 'Сидорова Анна' },
+        { id: 'emp4', name: 'Кузнецов Олег' }
+    ];
+
+    const sampleContractors = [
+        { id: 'con1', name: 'Альфа-Банк', industryId: 'ind2', contactPersonIds: [] },
+        { id: 'con2', name: 'М.Видео', industryId: 'ind3', contactPersonIds: [] }
+    ];
+
+    const now = new Date();
+    const dateStr = (offsetMonths) => {
+        const d = new Date(now.getFullYear(), now.getMonth() + offsetMonths, now.getDate());
+        return d.toISOString().split('T')[0];
+    };
+
+    const sampleProjects = [
+        { id: 'prj1', name: 'Внедрение CRM', contractorId: 'con1', cost: 1500000, startDate: dateStr(-1), endDate: dateStr(3), milestoneIds: ['m1'] },
+        { id: 'prj2', name: 'Обновление мобильного приложения', contractorId: 'con2', cost: 850000, startDate: dateStr(0), endDate: dateStr(2), milestoneIds: ['m2'] }
+    ];
+
+    const sampleMilestones = [
+        { id: 'm1', name: 'Проектирование системы', projectId: 'prj1', cost: 500000, startDate: dateStr(-1), endDate: dateStr(0), stageIds: ['s1'] },
+        { id: 'm2', name: 'Дизайн интерфейса', projectId: 'prj2', cost: 300000, startDate: dateStr(0), endDate: dateStr(1), stageIds: ['s2'] }
+    ];
+
+    const sampleStages = [
+        { id: 's1', name: 'Сбор требований', projectId: 'prj1', milestoneId: 'm1', cost: 500000, startDate: dateStr(-1), endDate: dateStr(0) },
+        { id: 's2', name: 'UI/UX дизайн', projectId: 'prj2', milestoneId: 'm2', cost: 300000, startDate: dateStr(0), endDate: dateStr(1) }
+    ];
+
+    localStorage.setItem('industries', JSON.stringify(sampleIndustries));
+    localStorage.setItem('roles', JSON.stringify(sampleRoles));
+    localStorage.setItem('employees', JSON.stringify(sampleEmployees));
+    localStorage.setItem('contractors', JSON.stringify(sampleContractors));
+    localStorage.setItem('projects-list', JSON.stringify(sampleProjects));
+    localStorage.setItem('milestones', JSON.stringify(sampleMilestones));
+    localStorage.setItem('stages', JSON.stringify(sampleStages));
 }
 
 function setupNavigation() {
@@ -64,6 +229,12 @@ function setupNavigation() {
             const section = document.getElementById(targetSection);
             if (section) {
                 section.classList.add('active');
+
+        // Специфическая логика для дашборда
+        if (targetSection === 'dashboard') {
+            updateDashboard();
+        }
+
                 // Активируем первый справочник в открытой секции
                 const firstSublink = section.querySelector('.sidebar-sublink');
                 if (firstSublink) {
@@ -1618,6 +1789,8 @@ function getItems(reference) {
 
 function saveItems(reference, items) {
     localStorage.setItem(reference, JSON.stringify(items));
+    // При любом сохранении данных обновляем дашборд
+    updateDashboard();
 }
 
 function renderTable(reference) {
