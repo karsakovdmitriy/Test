@@ -12,6 +12,7 @@
             <div class="logo" id="logo">ServiceFlow</div>
             <nav class="nav">
                 <button class="nav-btn active" id="btn-client-view">Для клиентов</button>
+                <button class="nav-btn" id="btn-client-account">Личный кабинет</button>
                 <button class="nav-btn" id="btn-master-view">Для мастеров</button>
             </nav>
         </div>
@@ -40,6 +41,17 @@
                 <div class="master-detail-container" id="master-detail-content">
                     <!-- Контент профиля мастера будет здесь -->
                 </div>
+            </div>
+        </section>
+
+        <!-- ЛИЧНЫЙ КАБИНЕТ КЛИЕНТА -->
+        <section id="client-account-view" class="view-section hidden">
+            <div class="section-header">
+                <h1>Мои записи</h1>
+                <p class="subtitle">Отслеживайте статус ваших бронирований</p>
+            </div>
+            <div class="bookings-list" id="client-bookings-list" style="max-width: 800px; margin: 0 auto;">
+                <!-- Список записей клиента -->
             </div>
         </section>
 

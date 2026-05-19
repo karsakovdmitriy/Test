@@ -39,28 +39,36 @@ let currentMasterId = '1'; // Для пилота считаем, что мы з
 
 // DOM элементы
 const btnClientView = document.getElementById('btn-client-view');
+const btnClientAccount = document.getElementById('btn-client-account');
 const btnMasterView = document.getElementById('btn-master-view');
 const clientView = document.getElementById('client-view');
+const clientAccountView = document.getElementById('client-account-view');
 const masterView = document.getElementById('master-view');
 const logo = document.getElementById('logo');
 
 // Переключение ролей
 btnClientView.addEventListener('click', () => setRole('client'));
+btnClientAccount.addEventListener('click', () => setRole('account'));
 btnMasterView.addEventListener('click', () => setRole('master'));
 logo.addEventListener('click', () => setRole('client'));
 
 function setRole(role) {
     currentRole = role;
+
+    // Сбрасываем активные классы и скрываем секции
+    [btnClientView, btnClientAccount, btnMasterView].forEach(btn => btn?.classList.remove('active'));
+    [clientView, clientAccountView, masterView].forEach(view => view?.classList.add('hidden'));
+
     if (role === 'client') {
         btnClientView.classList.add('active');
-        btnMasterView.classList.remove('active');
         clientView.classList.remove('hidden');
-        masterView.classList.add('hidden');
         renderMasterList();
+    } else if (role === 'account') {
+        btnClientAccount.classList.add('active');
+        clientAccountView.classList.remove('hidden');
+        renderClientBookings();
     } else {
-        btnClientView.classList.remove('active');
         btnMasterView.classList.add('active');
-        clientView.classList.add('hidden');
         masterView.classList.remove('hidden');
         initMasterDashboard();
     }
@@ -272,6 +280,35 @@ window.updateBookingStatus = (id, status) => {
 };
 
 // --- КЛИЕНТСКАЯ ЧАСТЬ ---
+
+function renderClientBookings() {
+    const list = document.getElementById('client-bookings-list');
+    if (list) {
+        list.innerHTML = '';
+        if (bookings.length === 0) {
+            list.innerHTML = '<p class="subtitle" style="text-align: center;">У вас пока нет активных записей.</p>';
+            return;
+        }
+
+        bookings.forEach(booking => {
+            const master = masters.find(m => m.id === booking.masterId);
+            const service = master?.services.find(s => s.id === booking.serviceId);
+            const div = document.createElement('div');
+            div.className = 'booking-card';
+            div.innerHTML = `
+                <div>
+                    <h4>${master ? escapeHtml(master.name) : 'Мастер'}</h4>
+                    <div class="service-meta">${service ? escapeHtml(service.name) : 'Услуга'} • ${escapeHtml(booking.time)}</div>
+                    <span class="booking-status status-${booking.status}">
+                        ${booking.status === 'pending' ? 'Ожидает подтверждения' :
+                          booking.status === 'confirmed' ? 'Подтверждено' : 'Отклонено'}
+                    </span>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+}
 
 function renderMasterList() {
     const grid = document.getElementById('masters-grid');
